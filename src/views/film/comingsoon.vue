@@ -1,7 +1,9 @@
 
 <template>
   <div>
-    <!-- <div>comingsoon</div> -->
+    <nowfilmlist :key="'film'+list2.length"
+                 :list2="list2"
+                 :type='type'></nowfilmlist>
   </div>
 
 </template>
@@ -9,7 +11,9 @@
 
 
 <script>
-console.log('进入comingsoon');
+import { comingSoonListData } from '@/api/api'
+
+import nowfilmlist from '@/components/nowfilmlist.vue'
 
 export default {
 
@@ -29,11 +33,16 @@ export default {
     }
   },
   //组件注册
-  components: {},
+  components: {
+    nowfilmlist
+  },
   // vue数据集中管理
   data () {
     return {
-      value: "1"
+      value: "1",
+      list2: [],
+      type: 1,
+      page: 1
     };
   },
   //方法 函数写这里
@@ -65,7 +74,13 @@ export default {
 
   },
   //页面渲染之后
-  mounted () {
+  async mounted () {
+    console.log('我是comingsoon里面的mounted')
+    //以下两部 一个是表面 一个是内在引入过后的 面貌 可以把http 这个方法axios请求揪出来
+    let ret = await comingSoonListData(this.page)
+    // let ret = await http.get(nowPlayingListUri +page)
+    console.log(ret)
+    this.list2 = ret.data.data.films
 
   },
   //页面销毁之前

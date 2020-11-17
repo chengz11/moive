@@ -8,8 +8,10 @@
 
       <!-- <h1>film</h1> -->
     </div>
+    <img src="https://static.maizuo.com/v5/upload/189bcf606b4bf49ad5de201a2ea5024d.jpg?x-oss-process=image/quality,Q_70"
+         alt="">
     <filmtop></filmtop>
-    <!-- <router-view></router-view> -->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -72,26 +74,26 @@ export default {
   },
   //组件创建之后
   created () {
-    console.log('我进入了 created');
-    axios.interceptors.request.use(function (config) {
-      config.headers = {
-        "X-Client-Info": '{"a":"3000","ch":"1002","v":"5.0.4","e":"1605418550380220569812993"}',
-        "X-Host": "mall.cfg.film-float.banner",
-      }
-      return config
-    }, function (err) {
-      if (err) {
-        console.log('err', err);
-      }
-    })
+    // console.log('我进入了 created');
+    // axios.interceptors.request.use(function (config) {
+    //   config.headers = {
+    //     "X-Client-Info": '{"a":"3000","ch":"1002","v":"5.0.4","e":"1605418550380220569812993"}',
+    //     "X-Host": "mall.cfg.film-float.banner",
+    //   }
+    //   return config
+    // }, function (err) {
+    //   if (err) {
+    //     console.log('err', err);
+    //   }
+    // })
 
-    axios.get('https://m.maizuo.com/gateway?type=2&cityId=310100&k=9208927')
-      .then(data => {
-        console.log(data);
-        console.log(data.data);
-        this.data1 = data.data
+    // axios.get('https://m.maizuo.com/gateway?type=2&cityId=310100&k=9803182')
+    //   .then(data => {
+    //     console.log(data);
+    //     console.log(data.data);
+    //     this.data1 = data.data
 
-      })
+    //   })
 
 
 
@@ -190,7 +192,7 @@ body {
 
 .fl {
   img {
-    width: 50%;
+    width: 100%;
   }
 }
 </style> 

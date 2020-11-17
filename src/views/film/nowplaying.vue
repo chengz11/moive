@@ -1,7 +1,10 @@
 
 <template>
   <div>
-    <!-- <div>nowplaying</div> -->
+    <comfilmlist :key="'film'+list1.length"
+                 :list1="list1"
+                 :type='type'></comfilmlist>
+
   </div>
 
 </template>
@@ -9,6 +12,8 @@
 
 
 <script>
+import { nowplayingListData } from '@/api/api'
+import comfilmlist from '@/components/comfilmlist.vue'
 export default {
   //组件名字
   name: "nowplaying",
@@ -17,7 +22,7 @@ export default {
     list: {
       type: Array,
       default () {
-        return [];
+        return []
       }
     },
     color: {
@@ -26,11 +31,16 @@ export default {
     }
   },
   //组件注册
-  components: {},
+  components: {
+    comfilmlist
+  },
   // vue数据集中管理
   data () {
     return {
-      value: "1"
+      value: "1",
+      list1: [],
+      type: 1,
+      page: 1
     };
   },
   //方法 函数写这里
@@ -62,8 +72,13 @@ export default {
 
   },
   //页面渲染之后
-  mounted () {
-
+  async mounted () {
+    console.log('我是nowplaying里面的mounted')
+    //以下两部 一个是表面 一个是内在引入过后的 面貌 可以把http 这个方法axios请求揪出来
+    let ret = await nowplayingListData(this.page)
+    // let ret = await http.get(nowPlayingListUri +page)
+    console.log(ret)
+    this.list1 = ret.data.data.films
   },
   //页面销毁之前
   beforeDestroy () {
