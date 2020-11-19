@@ -4,26 +4,52 @@
 
     <comloading v-if="!isflag"></comloading>
     <div v-else>
-      <div class="img">
-        <img v-lazy="film.poster"
-             class="imgs" />
+      <div class="pa10">
+        <div class="img">
+          <img v-lazy="film.poster"
+               class="imgs" />
+        </div>
+        <div class="film-detail">
+          <div class="name">{{ film.name }}
+            <b>{{name1}}</b>
+
+            <span v-if="!fl"><i>{{grade1}}</i> 分</span>
+            <!-- <span><i>{{grade1}}</i> 分</span> -->
+            <!-- <span><i>{{grade1 | ccc}}</i> 分</span> -->
+
+          </div>
+          <div class="category">{{ film.category }}</div>
+          <div class="premiereAt">{{ film.premiereAt | timeparser }}上映</div>
+          <div class="nation">{{ film.nation }} | {{ film.runtime }} 分钟</div>
+          <div class="synopsis abc"
+               @click="aaa">
+            {{ film.synopsis }}
+          </div>
+          <div class="Jimg"
+               @click="aaa">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAMAAADHqI+lAAAAOVBMVEVHcEy9xcW9wMW9wcW////Bwca9wcW9wMW9wMW+wMW+wcW9wcXMzMy+wMa+wce9wMe9wca9wMW9wMWKU/2FAAAAEnRSTlMAH+jGBDa6/vaatcIPdlNSdckJHB8JAAAASUlEQVQIHQXBhwGDMAADMCVksQr4/2MrObYCQNkOZ2oH6DWna2Q9wG9lXLQ984V3Zm/gntlb2zNvgN/KGFkPAL0mtQNA+b4C/AGl4gJfgEWzrAAAAABJRU5ErkJggg=="
+                 alt=""
+                 class=""
+                 id="imgs">
+          </div>
+        </div>
       </div>
-      <div class="film-detail">
-        <div class="name">{{ film.name }}
-          <b>{{name1}}</b>
 
-          <span v-if="!fl"><i>{{grade1}}</i> 分</span>
-          <!-- <span><i>{{grade1}}</i> 分</span> -->
-          <!-- <span><i>{{grade1 | ccc}}</i> 分</span> -->
+      <!-- 演员轮播 -->
+      <div class="ma10">
+        <h3>演职人员</h3>
 
-        </div>
-        <div class="category">{{ film.category }}</div>
-        <div class="premiereAt">{{ film.premiereAt | timeparser }}上映</div>
-        <div class="nation">{{ film.nation }} | {{ film.runtime }} 分钟</div>
-        <div class="synopsis"
-             @click="aaa">
-          {{ film.synopsis }}
-        </div>
+        <comswiper :key="film.actors.length">
+          <div v-for="(item,index) in film.actors"
+               :key="index"
+               class="swiper-slide">
+
+            <img v-lazy="item.avatarAddress"
+                 alt="">
+            <p>{{item.name}}</p>
+            <p>{{item.role}}</p>
+          </div>
+        </comswiper>
       </div>
     </div>
   </div>
@@ -33,6 +59,7 @@
 
 <script>
 import comloading from "@/components/comloading.vue";
+import comswiper from '@/components/comswiper.vue'
 
 import { jijiangDetailData } from '@/api/api'
 
@@ -56,6 +83,8 @@ export default {
   },
   //组件注册
   components: {
+    comswiper,
+
     comloading,
     jijiangDetailData
     // moiveDetailData,
@@ -71,7 +100,8 @@ export default {
       grade1: '',
 
       // flag: true,
-      fl: false
+      fl: false,
+      film: { actors: [] },
     };
   },
   //方法 函数写这里
@@ -79,7 +109,20 @@ export default {
     aaa () {
       // let synopsis = document.getElementsByClassName('synopsis')[0]
       // synopsis.style.height = 36 + 'px'
+
+      let obj = document.getElementsByClassName('synopsis')[0]
+      console.log(obj);
+      let imgs = document.getElementById('imgs')
+      imgs.className = 'up'
+      if (obj.className == 'synopsis') {
+        obj.className = 'synopsis abc'
+        imgs.className = ''
+      } else {
+        obj.className = 'synopsis'
+
+      }
     }
+
 
   },
   //计算属性
@@ -113,6 +156,7 @@ export default {
   },
   //组件创建之后
   created () {
+    this.eventBus.$emit('footernav', false)
 
   },
   //页面渲染之前
@@ -149,6 +193,7 @@ export default {
   },
   //页面销毁之后
   destroyed () {
+    this.eventBus.$emit('footernav', true)
 
   },
   //页面视图数据更新之前
@@ -178,6 +223,9 @@ export default {
 </script>
 
 <style lang="scss" >
+.pa10 {
+  border-bottom: 10px solid #f5f5f5;
+}
 .img {
   position: relative;
   width: 100%;
@@ -198,7 +246,6 @@ export default {
   }
   .synopsis {
     // height: 36px;
-    // overflow: hidden;
     padding-top: 15px;
   }
   // .synopsis:hover {
@@ -227,27 +274,48 @@ export default {
     }
   }
 }
-// @keyframes xl {
-//   from {
-//     height: 36px;
-//   }
-//   20% {
-//     height: 72px;
-//   }
-//   45% {
-//     height: 100px;
-//   }
-//   80% {
-//     height: 130px;
-//   }
+.Jimg {
+  box-sizing: border-box;
+  text-align: center;
+  display: block;
+  height: auto;
+  width: 20px;
+  margin: auto;
+  line-height: normal;
+  img {
+    width: 8px;
+    margin: auto;
+  }
+}
+.up {
+  transform: rotate(180deg);
+}
+.abc {
+  height: 36px !important;
+  overflow: hidden;
+}
+.swiper-slide {
+  text-align: center;
 
-//   90% {
-//     height: 200px;
-//   }
-//   to {
-//     height: 100%;
-//   }
-// }
+  img {
+    width: 72px;
+    height: 100px;
+  }
+}
+.gran {
+  background: #f5f5f5;
+  height: 10px;
+  width: 200px;
+}
+.ma10 {
+  border-bottom: 10px solid #f5f5f5;
+
+  padding: 10px;
+  h3 {
+    padding: 8px;
+    font-weight: 500;
+  }
+}
 </style> 
 
 

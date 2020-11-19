@@ -46,4 +46,7 @@ export const jijiangDetailData = (filmId) => {
   return http.get(jijiangDetailUrl + filmId);
 }
 
+// export const comingSoonListData = (pageNum) => {
+//   return http.get(comingSoonListUri + pageNum);
+// };
 

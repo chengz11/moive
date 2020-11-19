@@ -1,9 +1,10 @@
 
 <template>
   <div>
-    <comfilmlist :key="'film'+list1.length"
-                 :list1="list1"
+    <comfilmlist :list1="list1"
                  :type='type'></comfilmlist>
+    <!-- <comfilmlist :list1="list1"
+                 :type='type'></comfilmlist> -->
 
   </div>
 

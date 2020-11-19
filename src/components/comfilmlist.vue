@@ -1,53 +1,47 @@
 <template>
-  <div class="all">
-    <comloading v-if='flag'></comloading>
+  <div class="all scroll"
+       :style="{ height: height + 'px' }">
+    <!-- <comloading v-if='flag1'></comloading> -->
     <!-- <comloading v-if="!isflag"></comloading> -->
-    <!-- <comloading v-if="watchflag"></comloading> -->
+    <comloading v-if="watchflag"></comloading>
 
-    <!-- <div v-if="!watchflag"> -->
-    <div class="item"
-         @click="godetail(item.filmId)"
-         v-for="(item,index) in list1"
-         :key="index">
-      <div class="left">
-        <img v-lazy="item.poster" />
-      </div>
-      <div class="middle">
-        <div>{{item.name}}</div>
-        <div>
-          <span>观众评分</span>
-          <span class="yel"> {{ item.grade }}</span>
+    <div v-if="!watchflag">
+      <div class="item"
+           @click="godetail(item.filmId)"
+           v-for="(item,index) in data"
+           :key="index">
+        <div class="left">
+          <img v-lazy="item.poster" />
         </div>
-        <div>主演：<span v-for="(item1,index) in item.actors"
-                :key="index"> {{ item1.name }} </span></div>
-        <div>中国大陆 | {{item.runtime}}分钟</div>
-      </div>
-      <div class="right">
-        <span>购票</span>
+        <div class="middle">
+          <div>{{item.name}}</div>
+          <div>
+            <span>观众评分</span>
+            <span class="yel"> {{ item.grade }}</span>
+          </div>
+          <div>主演：<span v-for="(item1,index) in item.actors"
+                  :key="index"> {{ item1.name }} </span></div>
+          <div>中国大陆 | {{item.runtime}}分钟</div>
+        </div>
+        <div class="right">
+          <span>购票</span>
+        </div>
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 
 <script>
 import comloading from "@/components/comloading.vue";
+import BScroll from "better-scroll";
+import { nowplayingListData, comingSoonListData } from "@/api/api";
+
 export default {
   //组件名字
   name: "comfilmlist",
   //接收父组件给的东西 type是接收什么东西  default 默认值
-  props: {
-    list1: {
-      type: Array,
-      default () {
-        return [];
-      },
-    },
-    color: {
-      type: String,
-      default: "#000",
-    },
-  },
+  props:
+    ["list1", "type"],
   //组件注册
   components: {
     comloading
@@ -56,8 +50,16 @@ export default {
   data () {
     return {
       value: "1",
-      flag: true,
-      // watchflag: true
+      // flag1: true,
+      watchflag: true,
+      loading: true,
+      // watchflag: true,
+      height: 0,
+      // bs：保存better-scroll的实例结果
+      bs: null,
+      pageNum: 1,
+      flag: true, // 控制是否可以继续加载更多
+      data: [],
     };
   },
   //方法 函数写这里
@@ -67,24 +69,40 @@ export default {
       console.log(filmId);
       // this.$router.push(name:'Detail',params)
       this.$router.push({ name: 'Detail', params: { filmId } })
-    }
+    },
+    async getData () {
+      console.log('getData进来了')
+      if (this.flag) {
+        this.pageNum++
+        console.log(this.pageNum)
+        var ret = await nowplayingListData(this.pageNum)
+        if (ret.data.data.films.length < 10) {
+          this.flag = false
+        }
+        this.data = this.data.concat(ret.data.data.films)
+      }
+
+    },
+
   },
   //计算属性
   computed: {
-    isflag () {
-      console.log("我进入isflagcomputed里面了");
-      console.log(this.list1);
-      return this.list1[0];
-    },
+    // isflag () {
+    //   console.log("我进入isflagcomputed里面了");
+    //   console.log(this.list1);
+    //   return this.list1[0];
+    // },
   },
   //侦听器
   watch: {
-    // list1: function (newval) {
-    //   console.log("进来watch了");
-    //   this.watchflag = false;
-    //   //   console.log(newVal);
-    // },
-    // //  immediate: true,
+    list1: function (newval) {
+      console.log("进来watch了");
+      this.watchflag = false;
+      this.data = this.list1;
+
+      //   console.log(newVal);
+    },
+    //  immediate: true,
 
   },
   //过滤器
@@ -98,21 +116,24 @@ export default {
   beforeCreate () { },
   //组件创建之后
   created () {
-    console.log("我来到了components的comfilmlist created 里面");
-    console.log("this.list", this.list1);
-    if (this.list1.length > 0) {
-      this.flag = false;
-    }
+    // console.log("我来到了components的comfilmlist created 里面");
+    // console.log("this.list", this.list1);
+    // if (this.list1.length > 0) {
+    //   this.flag1 = false;
+    // }
+
   },
   //页面渲染之前
   beforeMount () { },
   //页面渲染之后
   mounted () {
-    console.log("我来到了components的comfilmlist mounted 里面");
-    console.log("this.list", this.list1);
-    if (this.list1.length > 0) {
-      this.flag = false;
-    }
+    this.height = document.documentElement.clientHeight - 300;
+
+    // console.log("我来到了components的comfilmlist mounted 里面");
+    // console.log("this.list", this.list1);
+    // if (this.list1.length > 0) {
+    //   this.flag1 = false;
+    // }
   },
   //页面销毁之前
   beforeDestroy () { },
@@ -121,7 +142,27 @@ export default {
   //页面视图数据更新之前
   beforeUpdate () { },
   //页面视图数据更新之后
-  updated () { },
+  updated () {
+    //new 得到better scroll的全部能力 
+    this.bs = new BScroll(".scroll", {
+      pullUpLoad: true,
+      // 激活下滑的事件监听
+      pullDownRefresh: true,
+      // 它会禁止一些浏览器的事件 
+      click: true,
+    });
+    this.bs.on("pullingUp", () => {
+      // 获取数据
+      this.getData();
+      this.bs.finishPullUp();
+    });
+    this.bs.on("pullingDown", () => {
+      // 获取数据
+      this.getData();
+      //这一步停止当前这一步 下拉刷新  刷新一次够了  要不服务器受不了
+      this.bs.finishPullDown();
+    });
+  },
   //组件路由守卫enter
   beforeRouteEnter (to, from, next) {
     next((vm) => { });
@@ -200,5 +241,8 @@ export default {
 }
 .all {
   margin-bottom: 80px;
+}
+.scroll {
+  overflow: hidden;
 }
 </style>
