@@ -1,16 +1,18 @@
 <template>
   <div class="fl">
-    <div v-for="(item,index) in data1"
+    <!-- <div v-for="(item,index) in data1"
          :key="index">
       <h1>{{item.name}}</h1>
       <img :src="item.imgUrl"
            alt="">
 
-      <!-- <h1>film</h1> -->
-    </div>
+ 
+    </div> -->
     <img src="https://static.maizuo.com/v5/upload/189bcf606b4bf49ad5de201a2ea5024d.jpg?x-oss-process=image/quality,Q_70"
          alt="">
-    <filmtop></filmtop>
+    <!-- 两个上映导航 -->
+    <filmtop :class="fixed?'fixed':''"></filmtop> 
+    <!-- 导航内渲染的内容放在这个坑里 -->
     <router-view></router-view>
   </div>
 </template>
@@ -46,7 +48,7 @@ export default {
     return {
       value: "1",
       data1: '',
-
+      fixed: false,
 
     };
   },
@@ -134,7 +136,14 @@ export default {
   },
   //页面渲染之后
   mounted () {
-
+    window.addEventListener('scroll', (e) => {
+      let top = document.documentElement.scrollTop;
+      if (top > 200) {
+        this.fixed = true
+      } else {
+        this.fixed = false
+      }
+    })
   },
   //页面销毁之前
   beforeDestroy () {
@@ -194,6 +203,11 @@ body {
   img {
     width: 100%;
   }
+}
+.fixed {
+  position: fixed;
+  top: 0;
+  background: #ffffff;
 }
 </style> 
  

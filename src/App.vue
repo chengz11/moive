@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <componentmovie></componentmovie>
+    <componentmovie v-if="is_show"></componentmovie>
     <!-- 下面是整体的路由容器都在这里汇聚这里 -->
     <router-view></router-view>
   </div>
@@ -33,7 +33,8 @@ export default {
   // vue数据集中管理
   data () {
     return {
-      value: "1"
+      value: "1",
+      is_show: true
     };
   },
   //方法 函数写这里
@@ -42,7 +43,7 @@ export default {
   computed: {},
   //侦听器
   watch: {},
-  //过滤器
+  //过滤器  
   filters: {
     toUpcase (value) {
       return value ? value.toUpperCase() : ''
@@ -55,7 +56,11 @@ export default {
   },
   //组件创建之后
   created () {
+    // this.eventBus.$emit('footernav', false)
 
+    this.eventBus.$on('footernav', (flag) => {
+      this.is_show = flag
+    })
   },
   //页面渲染之前
   beforeMount () {

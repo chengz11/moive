@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <!-- <comloading v-if='flag'></comloading> -->
+  <div class="all">
+    <comloading v-if='flag'></comloading>
     <!-- <comloading v-if="!isflag"></comloading> -->
 
     <div class="item"
+         @click="jijiang(item.filmId)"
          v-for="(item,index) in list2"
          :key="index">
       <div class="left">
-        <img :src="item.poster" />
+        <img v-lazy="item.poster" />
       </div>
       <div class="middle">
         <div>{{item.name}}</div>
@@ -27,6 +28,7 @@
 
 <script>
 import comloading from "@/components/comloading.vue";
+
 export default {
   //组件名字
   name: "mowfilmlist",
@@ -55,7 +57,15 @@ export default {
     };
   },
   //方法 函数写这里
-  methods: {},
+  methods: {
+    jijiang (filmId) {
+      console.log('我进来了即将上映的详情');
+      console.log(filmId);
+      this.$router.push({ name: 'jijiang', params: { filmId } })
+
+    }
+
+  },
   //计算属性
   computed: {
     // isflag () {
@@ -82,7 +92,7 @@ export default {
   //页面渲染之后
   mounted () {
     console.log("我来到了components的nowfilmlist mounted 里面");
-    console.log("this.list", this.list2);
+    console.log("this.list2", this.list2);
     if (this.list2.length > 0) {
       this.flag = false;
     }
@@ -170,5 +180,8 @@ export default {
       text-align: center;
     }
   }
+}
+.all {
+  margin-bottom: 80px;
 }
 </style>

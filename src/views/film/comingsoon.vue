@@ -1,6 +1,7 @@
 
 <template>
   <div>
+    <!-- component子组件坑 -->
     <nowfilmlist :key="'film'+list2.length"
                  :list2="list2"
                  :type='type'></nowfilmlist>

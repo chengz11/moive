@@ -1,14 +1,16 @@
 <template>
-  <div>
+  <div class="all">
     <comloading v-if='flag'></comloading>
     <!-- <comloading v-if="!isflag"></comloading> -->
+    <!-- <comloading v-if="watchflag"></comloading> -->
 
+    <!-- <div v-if="!watchflag"> -->
     <div class="item"
-         v-else
+         @click="godetail(item.filmId)"
          v-for="(item,index) in list1"
          :key="index">
       <div class="left">
-        <img :src="item.poster" />
+        <img v-lazy="item.poster" />
       </div>
       <div class="middle">
         <div>{{item.name}}</div>
@@ -16,7 +18,8 @@
           <span>观众评分</span>
           <span class="yel"> {{ item.grade }}</span>
         </div>
-        <div>主演：闫非 彭安宇 宁浩 徐峥 陈思诚</div>
+        <div>主演：<span v-for="(item1,index) in item.actors"
+                :key="index"> {{ item1.name }} </span></div>
         <div>中国大陆 | {{item.runtime}}分钟</div>
       </div>
       <div class="right">
@@ -24,6 +27,7 @@
       </div>
     </div>
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -53,20 +57,36 @@ export default {
     return {
       value: "1",
       flag: true,
+      // watchflag: true
     };
   },
   //方法 函数写这里
-  methods: {},
+  methods: {
+    godetail (filmId) {
+      console.log('我进来了godetail methods 里面 ');
+      console.log(filmId);
+      // this.$router.push(name:'Detail',params)
+      this.$router.push({ name: 'Detail', params: { filmId } })
+    }
+  },
   //计算属性
   computed: {
-    // isflag () {
-    //   console.log("我进入isflagcomputed里面了");
-    //   console.log(this.list1);
-    //   return this.list1[0];
-    // },
+    isflag () {
+      console.log("我进入isflagcomputed里面了");
+      console.log(this.list1);
+      return this.list1[0];
+    },
   },
   //侦听器
-  watch: {},
+  watch: {
+    // list1: function (newval) {
+    //   console.log("进来watch了");
+    //   this.watchflag = false;
+    //   //   console.log(newVal);
+    // },
+    // //  immediate: true,
+
+  },
   //过滤器
   filters: {
     toUpcase (value) {
@@ -77,7 +97,13 @@ export default {
   //组件创建之前
   beforeCreate () { },
   //组件创建之后
-  created () { },
+  created () {
+    console.log("我来到了components的comfilmlist created 里面");
+    console.log("this.list", this.list1);
+    if (this.list1.length > 0) {
+      this.flag = false;
+    }
+  },
   //页面渲染之前
   beforeMount () { },
   //页面渲染之后
@@ -171,5 +197,8 @@ export default {
       text-align: center;
     }
   }
+}
+.all {
+  margin-bottom: 80px;
 }
 </style>
