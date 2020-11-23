@@ -8,10 +8,22 @@
 
  
     </div> -->
-    <img src="https://static.maizuo.com/v5/upload/189bcf606b4bf49ad5de201a2ea5024d.jpg?x-oss-process=image/quality,Q_70"
-         alt="">
+    <!-- <img src="https://static.maizuo.com/v5/upload/189bcf606b4bf49ad5de201a2ea5024d.jpg?x-oss-process=image/quality,Q_70"
+         alt=""> -->
     <!-- 两个上映导航 -->
-    <filmtop :class="fixed?'fixed':''"></filmtop> 
+    <!-- fixed吸顶定位 -->
+    <div class="up">
+      <div class="up2">
+        <div class="filmtext">电影</div>
+      </div>
+      <div @click="cityswitch"
+           class="citytext">
+        {{this.$store.state.city}}
+
+      </div>
+
+    </div>
+    <filmtop :class="fixed?'fixed':''"></filmtop>
     <!-- 导航内渲染的内容放在这个坑里 -->
     <router-view></router-view>
   </div>
@@ -21,6 +33,9 @@
 
 <script>
 import axios from 'axios';
+//引用components子组件放在下面这个
+// <filmtop :class="fixed?'fixed':''"></filmtop>
+
 import filmtop from '@/components/filmtop.vue'
 export default {
   //组件名字
@@ -54,8 +69,9 @@ export default {
   },
   //方法 函数写这里
   methods: {
-    aa () {
-
+    cityswitch () {
+      console.log('我进来cityswitch了')
+      this.$router.push('/city')
     }
 
   },
@@ -136,6 +152,7 @@ export default {
   },
   //页面渲染之后
   mounted () {
+    // 吸顶定位
     window.addEventListener('scroll', (e) => {
       let top = document.documentElement.scrollTop;
       if (top > 200) {
@@ -191,7 +208,7 @@ export default {
 
 html,
 body {
-  touch-action: none;
+  // touch-action: none;
   height: 100%;
   ul,
   li {
@@ -204,10 +221,31 @@ body {
     width: 100%;
   }
 }
+
 .fixed {
   position: fixed;
   top: 0;
-  background: #ffffff;
+  background-color: #ffffff;
+}
+
+.up {
+  height: 50px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+
+  .up2 {
+    text-align: center;
+    line-height: 50px;
+    .filmtext {
+      font-size: 20px;
+    }
+  }
+}
+.citytext {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  font-size: 10px;
 }
 </style> 
  

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- 当v-if为true的时候不隐藏，为false隐藏 -->
     <componentmovie v-if="is_show"></componentmovie>
     <!-- 下面是整体的路由容器都在这里汇聚这里 -->
     <router-view></router-view>
@@ -34,7 +35,7 @@ export default {
   data () {
     return {
       value: "1",
-      is_show: true
+      is_show: true,
     };
   },
   //方法 函数写这里
@@ -58,6 +59,7 @@ export default {
   created () {
     // this.eventBus.$emit('footernav', false)
 
+    // 在电影列表默认显示true
     this.eventBus.$on('footernav', (flag) => {
       this.is_show = flag
     })
@@ -116,7 +118,7 @@ export default {
 
 html,
 body {
-  touch-action: none;
+  // touch-action: none;
   height: 100%;
   ul,
   li {

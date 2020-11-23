@@ -159,7 +159,7 @@ export default {
     let ret = await moiveDetailData(this.$route.params.filmId)
     console.log(ret);
     this.film = ret.data.data.film;
-    
+
 
 
 
@@ -190,7 +190,7 @@ export default {
     //   this.flag = false;
     // }
 
-
+    //没有评分不显示
     console.log(this.grade1);
     if (this.grade1 == undefined) {
       this.fl = true
@@ -205,6 +205,7 @@ export default {
   },
   //页面销毁之后
   destroyed () {
+    //下方导航栏
     this.eventBus.$emit('footernav', true)
 
   },
@@ -300,6 +301,8 @@ export default {
   }
 }
 .up {
+  width: 8px;
+
   transform: rotate(180deg);
 }
 .abc {

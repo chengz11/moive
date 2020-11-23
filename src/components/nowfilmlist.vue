@@ -17,14 +17,13 @@
         <div class="middle">
           <div>{{item.name}}</div>
           <div>
-            <span>观众评分</span>
             <span class="yel"> {{ item.grade }}</span>
           </div>
           <div>主演：闫非 彭安宇 宁浩 徐峥 陈思诚</div>
           <div>中国大陆 | {{item.runtime}}分钟</div>
         </div>
         <div class="right">
-          <span>购票</span>
+          <span>预购</span>
         </div>
       </div>
     </div>
@@ -72,6 +71,8 @@ export default {
     },
     async getData () {
       console.log('getData进来了')
+
+      
       if (this.flag) {
         this.pageNum++
         console.log(this.pageNum)
@@ -118,7 +119,7 @@ export default {
   beforeMount () { },
   //页面渲染之后
   mounted () {
-    this.height = document.documentElement.clientHeight - 300;
+    this.height = document.documentElement.clientHeight - 100;
 
     // console.log("我来到了components的nowfilmlist mounted 里面");
     // console.log("this.list2", this.list2);

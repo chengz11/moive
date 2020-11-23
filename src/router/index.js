@@ -8,6 +8,7 @@ import cinemaRouter from '@/router/routes/cinema.js'
 import centerRouter from '@/router/routes/center.js'
 import DetailRouter from '@/router/routes/Detail.js'
 import jijiangRouter from '@/router/routes/jijiang.js'
+import cityRouter from '@/router/routes/city.js'
 
 
 
@@ -19,11 +20,16 @@ const routes = [
     name: 'film',
     component: Home
   },
+  {
+    path: '/vuex',
+    component: () => import('@/views/vuex/vuex')
+  },
   filmRouter,
   cinemaRouter,
   centerRouter,
   DetailRouter,
-  jijiangRouter
+  jijiangRouter,
+  cityRouter
 ]
 
 const router = new VueRouter({

@@ -1,36 +1,17 @@
 <template>
-  <div class="nav">
-    <ul>
-      <router-link active-class="active"
-                   to="/film"
-                   tag="li">
-        <i class="iconfont icondianying"></i>
-        <!-- <i class="iconfont icon-data"></i> -->
-        <p>电影</p>
-      </router-link>
-      <router-link active-class="active"
-                   to="/cinema"
-                   tag="li">
-        <i class="iconfont iconyingyuan"></i>
-        <p>影院</p>
-      </router-link>
-      <router-link active-class="active"
-                   to="/center"
-                   tag="li">
-        <i class="iconfont icongeren"></i>
-        <p>我的</p>
-      </router-link>
-    </ul>
+  <div class="sss">
+    <div>{{this.$store.state.city}}</div>
+    <h1>{{this.$store.getters.getCount}}</h1>
+
   </div>
 </template>
 
 <script>
-// important引入iconfont样式
-import "@/assets/iconfont/iconfont.css";
-// import "@/assets/font_2206729_6amtgt94g66/iconfont.css";
+import { mapActions, mapState, mapMutations, mapGetters } from 'vuex'
+
 export default {
   //组件名字
-  name: "comfooternav",
+  name: "vuex",
   //接收父组件给的东西 type是接收什么东西  default 默认值
   props: {
     list: {
@@ -43,6 +24,10 @@ export default {
       type: String,
       default: "#000",
     },
+    title: {
+      type: String,
+      default: "默认文本",
+    }
   },
   //组件注册
   components: {},
@@ -55,7 +40,10 @@ export default {
   //方法 函数写这里
   methods: {},
   //计算属性
-  computed: {},
+  computed: {
+    ...mapGetters(['getCount'])
+
+  },
   //侦听器
   watch: {},
   //过滤器
@@ -100,38 +88,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav {
-  z-index: 5000;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  border-top: 1px solid #ccc;
-  height: 50px;
-  text-align: center;
-  background: #fff;
-  color: #7a7e83;
-  width: 100%;
-
-  ul {
-    display: flex;
-    align-items: center;
-    li {
-      margin-top: 5px;
-      flex: 1;
-      height: 43px;
-      // &.active {
-      //     color: #fe5100;
-      // }
-      p {
-        margin-top: 2px;
-      }
-      i {
-        font-size: 20px;
-      }
-    }
-    .active {
-      color: #fe5100;
-    }
-  }
-}
 </style>
+

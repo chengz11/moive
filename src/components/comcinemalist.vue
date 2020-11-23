@@ -1,28 +1,16 @@
-
 <template>
-  <div>
-    <!-- component子组件坑 key的作用，让值是唯一，不可被替代-->
-    <!-- <nowfilmlist :key="'film'+list2.length"
-                 :list2="list2"
-                 :type='type'></nowfilmlist> -->
-    <!-- 使用watch监听不需要key -->
-    <nowfilmlist :list2="list2"
-                 :type='type'></nowfilmlist>
-  </div>
+  <div id="app">
 
+  </div>
 </template>
 
 
 
 <script>
-import { comingSoonListData } from '@/api/api'
-
-import nowfilmlist from '@/components/nowfilmlist.vue'
 
 export default {
-
   //组件名字
-  name: "comingsong",
+  name: "app",
   //接收父组件给的东西 type是接收什么东西  default 默认值
   props: {
     list: {
@@ -38,21 +26,17 @@ export default {
   },
   //组件注册
   components: {
-    nowfilmlist
+    comfooternav
   },
   // vue数据集中管理
   data () {
     return {
       value: "1",
-      list2: [],
-      type: 1,
-      page: 1
+
     };
   },
   //方法 函数写这里
-  methods: {
-
-  },
+  methods: {},
   //计算属性
   computed: {},
   //侦听器
@@ -64,28 +48,20 @@ export default {
     },
   },
   //以下是生命周期 
-  //组件创建之前  new操作符桥梁函数return 之前
+  //组件创建之前  
   beforeCreate () {
 
   },
-  //组件创建之后
+
   created () {
-    //发送axios请求 携带cookie  比如name:zs  password:123456
-    //数据库后端会返回 userid   this.userid = userid
+
   },
   //页面渲染之前
   beforeMount () {
 
   },
   //页面渲染之后
-  async mounted () {
-    console.log('我是comingsoon里面的mounted')
-    //以下两部 一个是表面 一个是内在引入过后的 面貌 可以把http 这个方法axios请求揪出来
-    //  ret  接收axios请求的数据
-    let ret = await comingSoonListData(this.page)
-    // let ret = await http.get(nowPlayingListUri +page)
-    console.log(ret)
-    this.list2 = ret.data.data.films
+  mounted () {
 
   },
   //页面销毁之前
@@ -126,7 +102,20 @@ export default {
 
 
 
-<style scoped lang="scss">
-</style>
+<style lang="scss" >
+* {
+  margin: 0;
+  padding: 0;
+}
 
-
+html,
+body {
+  // touch-action:none;
+  height: 100%;
+  ul,
+  li {
+    list-style: none;
+  }
+}
+</style> 
+ 

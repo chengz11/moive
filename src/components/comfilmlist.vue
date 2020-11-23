@@ -70,13 +70,19 @@ export default {
       // this.$router.push(name:'Detail',params)
       this.$router.push({ name: 'Detail', params: { filmId } })
     },
+
+
     async getData () {
       console.log('getData进来了')
       if (this.flag) {
+        this.flag = false
+
         this.pageNum++
         console.log(this.pageNum)
         var ret = await nowplayingListData(this.pageNum)
-        if (ret.data.data.films.length < 10) {
+        this.flag = true
+
+        if (ret.data.data.films.length < 1) {
           this.flag = false
         }
         this.data = this.data.concat(ret.data.data.films)
@@ -127,7 +133,7 @@ export default {
   beforeMount () { },
   //页面渲染之后
   mounted () {
-    this.height = document.documentElement.clientHeight - 300;
+    this.height = document.documentElement.clientHeight - 150;
 
     // console.log("我来到了components的comfilmlist mounted 里面");
     // console.log("this.list", this.list1);
@@ -144,25 +150,62 @@ export default {
   //页面视图数据更新之后
   updated () {
     //new 得到better scroll的全部能力 
-    this.bs = new BScroll(".scroll", {
-      pullUpLoad: true,
-      // 激活下滑的事件监听
-      pullDownRefresh: true,
-      // 它会禁止一些浏览器的事件 
-      click: true,
-    });
+    if (!this.bs) {
+      this.bs = new BScroll(".scroll", {
+        pullUpLoad: true,
+        // 激活下滑的事件监听
+        mouseWheel: true,
+        pullDownRefresh: true,
+        // 它会禁止一些浏览器的事件
+        click: true,
+        pullUpLoad: {
+          threshold: 20,
+        },
+      });
+    } else {
+      //如果已经有了 new BScroll给的全部能力 我就不继续 new 新的了 以防止重新渲染容器
+      //this.bs.refresh()意思是  正常运转 已有的容器
+      this.bs.refresh();
+    }
+
     this.bs.on("pullingUp", () => {
       // 获取数据
       this.getData();
+
       this.bs.finishPullUp();
     });
+    //本次pullup动作已经完成，继续准备下一次pullup
     this.bs.on("pullingDown", () => {
       // 获取数据
+
       this.getData();
-      //这一步停止当前这一步 下拉刷新  刷新一次够了  要不服务器受不了
+      //本次pulldown动作已经完成，继续准备下一次pulldown
       this.bs.finishPullDown();
     });
+
+
+
+    // this.bs = new BScroll(".scroll", {
+    //   pullUpLoad: true,
+    //   // 激活下滑的事件监听
+    //   pullDownRefresh: true,
+    //   // 它会禁止一些浏览器的事件 
+    //   click: true,
+    // });
+    // this.bs.on("pullingUp", () => {
+    //   // 获取数据
+    //   this.getData();
+    //   this.bs.finishPullUp();
+    // });
+    // this.bs.on("pullingDown", () => {
+    //   // 获取数据
+    //   this.getData();
+    //   //这一步停止当前这一步 下拉刷新  刷新一次够了  要不服务器受不了
+    //   this.bs.finishPullDown();
+    // });
   },
+
+
   //组件路由守卫enter
   beforeRouteEnter (to, from, next) {
     next((vm) => { });
@@ -240,7 +283,7 @@ export default {
   }
 }
 .all {
-  margin-bottom: 80px;
+  margin-bottom: 30px;
 }
 .scroll {
   overflow: hidden;
