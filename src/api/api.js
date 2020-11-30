@@ -16,9 +16,14 @@ import { moiveDetailUrl } from '../config/url'
 import { jijiangDetailUrl } from '../config/url';
 import { cityListUrl } from '../config/url';
 import { cinemaListUrl } from '../config/url';
+import { loginUrl } from '../config/url';
 
 
-
+//登录
+export const userLogin = (data) => {
+  //loginurl在上面引入了
+  return http.post(loginUrl, data)
+}
 
 
 // 暴露出

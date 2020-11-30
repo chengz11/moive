@@ -3,11 +3,16 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Router from 'vue-router'
-
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
 Vue.config.productionTip = false
-
-
-
+let _token = localStorage.getItem('_token')
+if (_token) {
+  // console.log('我进入了main  _token');
+  // console.log(this);
+  store.commit('tokenadd', _token)
+}
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push (location) {

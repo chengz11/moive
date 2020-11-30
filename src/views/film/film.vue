@@ -12,7 +12,7 @@
          alt=""> -->
     <!-- 两个上映导航 -->
     <!-- fixed吸顶定位 -->
-    <div class="up">
+    <!-- <div class="up">
       <div class="up2">
         <div class="filmtext">电影</div>
       </div>
@@ -22,7 +22,7 @@
 
       </div>
 
-    </div>
+    </div> -->
     <filmtop :class="fixed?'fixed':''"></filmtop>
     <!-- 导航内渲染的内容放在这个坑里 -->
     <router-view></router-view>
@@ -69,10 +69,6 @@ export default {
   },
   //方法 函数写这里
   methods: {
-    cityswitch () {
-      console.log('我进来cityswitch了')
-      this.$router.push('/city')
-    }
 
   },
   //计算属性
@@ -200,7 +196,7 @@ export default {
 
 
 
-<style lang="scss" >
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
@@ -228,24 +224,24 @@ body {
   background-color: #ffffff;
 }
 
-.up {
-  height: 50px;
-  border-bottom: 1px solid #eee;
-  position: relative;
+// .up {
+//   height: 50px;
+//   border-bottom: 1px solid #eee;
+//   position: relative;
 
-  .up2 {
-    text-align: center;
-    line-height: 50px;
-    .filmtext {
-      font-size: 20px;
-    }
-  }
-}
-.citytext {
-  position: absolute;
-  left: 10px;
-  top: 15px;
-  font-size: 10px;
-}
+//   .up2 {
+//     text-align: center;
+//     line-height: 50px;
+//     .filmtext {
+//       font-size: 20px;
+//     }
+//   }
+// }
+// .citytext {
+//   position: absolute;
+//   left: 10px;
+//   top: 15px;
+//   font-size: 10px;
+// }
 </style> 
  

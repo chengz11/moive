@@ -1,20 +1,17 @@
 <template>
-  <div id="app">
-    <!-- 当v-if为true的时候不隐藏，为false隐藏 -->
-    <componentmovie v-if="is_show"></componentmovie>
-    <!-- 下面是整体的路由容器都在这里汇聚这里 -->
-    <router-view></router-view>
+  <div>
+    <h1>center</h1>
+
   </div>
 </template>
 
 
 
 <script>
-import axios from 'axios';
-import componentmovie from '@/components/componentmovie.vue'
+// import comfooternav from '@/components/comfooternav.vue'
 export default {
   //组件名字
-  name: "app",
+  name: "center",
   //接收父组件给的东西 type是接收什么东西  default 默认值
   props: {
     list: {
@@ -30,13 +27,11 @@ export default {
   },
   //组件注册
   components: {
-    componentmovie
   },
   // vue数据集中管理
   data () {
     return {
-      value: "1",
-      is_show: true,
+      value: "1"
     };
   },
   //方法 函数写这里
@@ -45,7 +40,7 @@ export default {
   computed: {},
   //侦听器
   watch: {},
-  //过滤器  
+  //过滤器
   filters: {
     toUpcase (value) {
       return value ? value.toUpperCase() : ''
@@ -58,48 +53,14 @@ export default {
   },
   //组件创建之后
   created () {
-    // this.eventBus.$emit('footernav', false)
 
-    // 在电影列表默认显示true
-    this.eventBus.$on('footernav', (flag) => {
-      this.is_show = flag
-    })
   },
   //页面渲染之前
   beforeMount () {
 
   },
-
   //页面渲染之后
   mounted () {
-
-    //登录之后可以在每个页面显示的登录个人信息
-    console.log('我进入了app的mounted');
-    console.log('000');
-    console.log(this.$store.state.token);
-    if (this.$store.state.token) {
-      console.log(111);
-
-      axios({
-        method: 'get',
-        url: 'http://127.0.0.1:3000/api/v1/user_info',
-        headers: { 'Authorization': 'Bearer ' + this.$store.state.token }
-      }).then(res => {
-        console.log('进入了APP页面里面的总体请求用户信息数据了');
-        console.log(res);
-        console.log('res code');
-        console.log(res.data.code);
-        if (res.data.code === '888') {
-          console.log('进入失败情况');
-          localStorage.removeItem('_token')//删除token
-        }
-        console.log('进入正确的数据请求');
-        console.log(res.data.info2.mobile);
-        this.$store.commit('usermobile', res.data.info2.mobile)
-      })
-    }
-
-
 
   },
   //页面销毁之前
@@ -148,7 +109,7 @@ export default {
 
 html,
 body {
-  // touch-action: none;
+  touch-action: none;
   height: 100%;
   ul,
   li {

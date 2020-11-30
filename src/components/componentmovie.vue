@@ -17,7 +17,11 @@
       <router-link active-class="active"
                    to="/center"
                    tag="li">
-        <i class="iconfont icongeren"></i>
+        <svg class="icon"
+             aria-hidden="true">
+          <use xlink:href="#icon-geren"></use>
+        </svg>
+        <!-- <i class="iconfont icongeren"></i> -->
         <p>我的</p>
       </router-link>
     </ul>
@@ -100,6 +104,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
 .nav {
   z-index: 5000;
   position: fixed;

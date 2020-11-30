@@ -48,6 +48,9 @@ export const jijiangDetailUrl =
 export const cityListUrl =
   "gateway?k=3233761";
 
+//登录逻辑
+export const loginUrl = "http://127.0.0.1:3000/api/v1/login";
+
 //影院
 export const cinemaListUrl =
   "/gateway?ticketFlag=1&k=4365700&cityId="

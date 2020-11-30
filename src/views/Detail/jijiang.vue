@@ -113,7 +113,7 @@ export default {
       let obj = document.getElementsByClassName('synopsis')[0]
       console.log(obj);
       let imgs = document.getElementById('imgs')
-      imgs.className = 'up'
+      imgs.className = 'updt'
       if (obj.className == 'synopsis') {
         obj.className = 'synopsis abc'
         imgs.className = ''
@@ -222,7 +222,21 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss"  scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  // touch-action: none;
+  height: 100%;
+  ul,
+  li {
+    list-style: none;
+  }
+}
 .pa10 {
   border-bottom: 10px solid #f5f5f5;
 }
@@ -287,7 +301,9 @@ export default {
     margin: auto;
   }
 }
-.up {
+.updt {
+  width: 8px;
+
   transform: rotate(180deg);
 }
 .abc {

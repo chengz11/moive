@@ -7,7 +7,8 @@
       </div>
       <div @click="cityswitch"
            class="citytext">
-        {{this.$store.state.city}}<span class="iconfont icon-jiantou9"></span>
+        {{this.$store.state.city}}
+        <!-- <span class="iconfont icon-jiantou9"></span> -->
       </div>
     </div>
     <div class="xx"></div>
@@ -137,7 +138,7 @@ export default {
 
 
 
-<style lang="scss" >
+<style lang="scss"  scoped>
 * {
   margin: 0;
   padding: 0;
