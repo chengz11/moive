@@ -70,60 +70,46 @@ export default {
       },
     };
   },
-  // 进入的时候去掉底部导航
   created () {
     this.$nextTick(() => {
       this.eventBus.$emit('footernav', false)
     })
-
   },
-  // 出来的时候显示底部导航
   beforeDestroy () {
     this.eventBus.$emit('footernav', true)
-
   },
   methods: {
     aaa () {
-
       this.$router.push('/zhuce')
     },
     submitForm: function (formName) {
-      console.log('进入submitForm里面了')
-      //这里的async 是因为里面有异步请求 
-      this.$refs[formName].validate(async (valid) => {
-        // valid的意思是  必须rules 那里全是true 全部效验通过 valid才会变为true   
-        console.log('valid', valid)
-        if (valid) {
-          console.log('valid为true了')
-          // 获取用户名和密码进行提交（API）
-          let ret = await userLogin(this.formData);
-          console.log(ret);
 
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          let ret = await userLogin(this.formData);
           if (ret.data.code == 1000) {
-            // 登录成功（存储token、跳转）
-            console.log('进入code1000里面了')
-            console.log(ret.data.mobile);
-            //我们往 vuex 总商店触发mutation变异器 去改变里面的mobile 
+
             this.$store.commit("usermobile", ret.data.mobile);
             this.$store.commit('tokenadd', ret.data.data._token)
-            //为了持久化储存
-            console.log('我进入了token储存');
             localStorage.setItem('_token', ret.data.data._token)
             this.$message({
+
               message: "即将跳转个人中心 · · · · · ·",
               type: "success",
             });
+
             setTimeout(() => {
               this.$router.push({ path: "/center" });
+              // console.log(111);
             }, 3000)
 
           } else {
-            // 登录失败
-            console.log("我进入登陆失败了");
+
             this.$message({
               message: "fail",
               type: "warning",
             });
+
             alert(ret.data.info);
           }
         }

@@ -14,19 +14,6 @@
         </template>
       </div>
     </van-index-bar>
-
-    <!-- <van-index-bar>
-      <van-index-anchor index="A" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-
-      <van-index-anchor index="B" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-
-    </van-index-bar> -->
   </div>
 </template>
 
@@ -37,7 +24,6 @@
 </style>
 
 <script>
-console.log('city');
 import comvancell from '@/components/comvancell'
 
 import Vue from "vue";
@@ -71,18 +57,13 @@ export default {
   async mounted () {
     var abc = await cityListData();
 
-    console.log("我进入cityvue组建了");
-    console.log(abc);
     this.dataList = abc[0];
     this.indexList = abc[1];
   },
   methods: {
     changecity (name, cityId) {
-      console.log('我进入了changecity里面');
-      console.log(name);
       this.$store.commit('add2', name)
       this.$router.push('/cinema')
-      console.log(cityId);
       this.$store.commit('Id', cityId)
 
     }

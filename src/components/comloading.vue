@@ -13,7 +13,6 @@
   top: 50px;
   left: 0;
   bottom: 50px;
-  // background-color: #fdfaf5;
 }
 
 .out-box {

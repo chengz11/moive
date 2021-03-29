@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store/index'
 
+
+
 Vue.use(VueRouter)
 import filmRouter from '@/router/routes/film.js'
 import cinemaRouter from '@/router/routes/cinema.js'
@@ -20,10 +22,6 @@ const routes = [
     redirect: '/film',
     name: 'film',
     component: Home
-  },
-  {
-    path: '/vuex',
-    component: () => import('@/views/vuex/vuex')
   },
   {
     path: '/login',
@@ -44,7 +42,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
@@ -52,29 +50,32 @@ const router = new VueRouter({
 
 
 
-//全局路由守卫
-// router.beforeEach((to, from, next) => {
-//   let arr = ['/center']
-//   if (arr.includes(to.path)) {
-//     if (store.state.tokenadd) {
-//       next()
-//     } else {
-//       next({ path: '/login' })
-//     }
-//   } else {
-//     next()
-//   }
-// })
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+  let arr = ['/center']
+  if (arr.includes(to.path)) {//includes() 方法用于判断字符串是否包含指定的子字符串
+    if (store.state.tokenadd) {//在vuex中拿到token
+      next()
+    } else {
+      next({ path: '/login' })
+    }
+  } else {
+    next()
+  }
+})
 
 
 // router.beforeEach((to, from, next) => {
+
 //   //不让进入的页面 写入数组 然后我们用逻辑去处理
 //   let arr = ['/center']
 //   //如果我即将要跳转的下一个页面  arr里面有
 //   if (arr.includes(to.path)) {
+//     console.log(11);
 //     //如果你要去我的必须登录才能去页面 必须登录才能进去 
 //     //store.state.token 相当于你是我认证过的用户
 //     if (store.state.token) {
+
 //       //所以就直接放行
 //       next()
 //     } else {

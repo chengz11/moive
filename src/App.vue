@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <!-- 当v-if为true的时候不隐藏，为false隐藏 -->
     <componentmovie v-if="is_show"></componentmovie>
-    <!-- 下面是整体的路由容器都在这里汇聚这里 -->
     <router-view></router-view>
   </div>
 </template>
@@ -15,7 +13,6 @@ import componentmovie from '@/components/componentmovie.vue'
 export default {
   //组件名字
   name: "app",
-  //接收父组件给的东西 type是接收什么东西  default 默认值
   props: {
     list: {
       type: Array,
@@ -32,107 +29,43 @@ export default {
   components: {
     componentmovie
   },
-  // vue数据集中管理
   data () {
     return {
       value: "1",
       is_show: true,
     };
   },
-  //方法 函数写这里
-  methods: {},
-  //计算属性
-  computed: {},
-  //侦听器
-  watch: {},
-  //过滤器  
   filters: {
     toUpcase (value) {
       return value ? value.toUpperCase() : ''
     },
   },
-  //以下是生命周期 
-  //组件创建之前  
-  beforeCreate () {
-
-  },
-  //组件创建之后
   created () {
-    // this.eventBus.$emit('footernav', false)
-
-    // 在电影列表默认显示true
     this.eventBus.$on('footernav', (flag) => {
       this.is_show = flag
     })
   },
-  //页面渲染之前
-  beforeMount () {
-
-  },
-
-  //页面渲染之后
   mounted () {
 
-    //登录之后可以在每个页面显示的登录个人信息
-    console.log('我进入了app的mounted');
-    console.log('000');
-    console.log(this.$store.state.token);
-    if (this.$store.state.token) {
-      console.log(111);
-
+    if (this.$store.state.tokenadd) {
       axios({
         method: 'get',
+        // url: 'http://139.196.20.12:3000/api/v1/user_info',
         url: 'http://127.0.0.1:3000/api/v1/user_info',
-        headers: { 'Authorization': 'Bearer ' + this.$store.state.token }
+        headers: { 'Authorization': 'Bearer ' + this.$store.state.tokenadd }
       }).then(res => {
-        console.log('进入了APP页面里面的总体请求用户信息数据了');
-        console.log(res);
-        console.log('res code');
-        console.log(res.data.code);
         if (res.data.code === '888') {
-          console.log('进入失败情况');
           localStorage.removeItem('_token')//删除token
         }
-        console.log('进入正确的数据请求');
-        console.log(res.data.info2.mobile);
         this.$store.commit('usermobile', res.data.info2.mobile)
       })
     }
+    
 
 
 
   },
-  //页面销毁之前
-  beforeDestroy () {
 
-  },
-  //页面销毁之后
-  destroyed () {
-
-  },
-  //页面视图数据更新之前
-  beforeUpdate () {
-
-  },
-  //页面视图数据更新之后
-  updated () {
-
-  },
-  //组件路由守卫enter
-  beforeRouteEnter (to, from, next) {
-    next(vm => { });
-    // 注意，在路由进入之前，组件实例还未渲染，所以无法获取this实例，只能通过vm来访问组件实例
-  },
-  //组件路由守卫update更新
-  beforeRouteUpdate (to, from, next) {
-    // 同一页面，刷新不同数据时调用，
-    next();
-  },
-  //组件路由守卫离开
-  beforeRouteLeave (to, from, next) {
-    // 离开当前路由页面时调用
-    next();
-  }
 };
 </script>
 

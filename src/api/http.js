@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import axios from 'axios';
-axios.defaults.baseURL = 'https://m.maizuo.com';
+// axios.defaults.baseURL = 'https://m.maizuo.com';
 axios.interceptors.request.use(
   function (config) {
     let host = '';
     let info = config.headers.info;
+
     if ("info" == info) {
       // 详情页面的头
       host = "mall.film-ticket.film.info";
